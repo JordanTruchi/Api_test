@@ -6,6 +6,26 @@
 parameters:
 
 services:
+    auth_token_user_provider:
+        class: App\Security\AuthTokenUserProvider
+        arguments: ["@auth_token_repository", "@user_repository"]
+        public:    false
+
+    auth_token_repository:
+         class:   Doctrine\ORM\EntityManager
+         factory: ["@doctrine.orm.entity_manager", "getRepository"]
+         arguments: ["App:AuthToken"]
+
+    user_repository:
+         class:   Doctrine\ORM\EntityManager
+         factory: ["@doctrine.orm.entity_manager", "getRepository"]
+         arguments: ["App:User"]
+
+    auth_token_authenticator:
+         class:     App\Security\AuthTokenAuthenticator
+         arguments: ["@security.http_utils"]
+         public:    false
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -21,6 +41,9 @@ services:
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+    App\Controller\Rest\:
+        resource: '../src/Controller/Rest'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed

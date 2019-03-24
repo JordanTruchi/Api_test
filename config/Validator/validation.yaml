@@ -1,0 +1,25 @@
+App\Entity\User:
+    constraints:
+      - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [email, username, apiToken]
+    properties:
+      username:
+        - NotBlank: ~
+        - Type: string
+      email:
+        - NotBlank: ~
+        - Email: ~
+      password:
+        - NotBlank: ~
+        - Type: string
+        - Length:
+          min: 4
+          max: 50
+
+App\Entity\Credentials:
+    properties:
+      login:
+        - NotBlank: ~
+        - Type: string
+      password:
+        - NotBlank: ~
+        - Type: string

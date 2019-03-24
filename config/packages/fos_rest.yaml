@@ -5,6 +5,19 @@ fos_rest:
     format_listener:
         rules:
             - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+    exception:
+        exception_controller: 'fos_rest.exception.controller:showAction'
+        codes:
+            Doctrine\ORM\EntityNotFoundException: 404
+            \LogicException: 400
+            \DomainException: 400
+            Symfony\Component\Security\Core\Exception\BadCredentialsException: 401
+        messages:
+            Doctrine\ORM\EntityNotFoundException: true
+            \LogicException: true
+            \DomainException: true
+            Symfony\Component\Security\Core\Exception\BadCredentialsException: true
+            'Symfony\Component\HttpKernel\Exception\HttpException' : true
 #    param_fetcher_listener:  true
 #    allowed_methods_listener:  true
 #    routing_loader: true
